@@ -1,3 +1,9 @@
+<img width="1182" height="597" alt="Screenshot 2026-06-21 140656" src="https://github.com/user-attachments/assets/a2f79ee7-9ba9-4f7c-8f25-4261b76920ca" />
+<img width="1182" height="581" alt="Screenshot 2026-06-21 130116" src="https://github.com/user-attachments/assets/f956f758-7633-4c2b-ace2-0dd690e0dd35" />
+<img width="1158" height="552" alt="Screenshot 2026-06-21 130051" src="https://github.com/user-attachments/assets/66aa8d4f-13bb-4138-8002-b4f9eb6954d0" />
+<img width="1347" height="674" alt="Screenshot 2026-06-21 125941" src="https://github.com/user-attachments/assets/cee8f716-a98a-46b3-83ce-c9409e2445b7" />
+<img width="1336" height="679" alt="Screenshot 2026-06-21 125714" src="https://github.com/user-attachments/assets/9c536d45-a612-4355-99e6-1decb3fcd0dc" />
+<img width="353" height="565" alt="Screenshot 2026-06-21 125137" src="https://github.com/user-attachments/assets/f212238f-7c07-4b01-8b4c-f31efc7a23e6" />
 # ⚡ PhishGuard — Phishing Prevention Browser Extension
 
 
