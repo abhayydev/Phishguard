@@ -1,0 +1,210 @@
+/* warning.css — PhishGuard Warning Page */
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg: #0a0f1e;
+  --card-bg: #0f172a;
+  --border: #1e293b;
+  --danger: #ef4444;
+  --danger-dark: #7f1d1d;
+  --suspicious: #f59e0b;
+  --text: #f1f5f9;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
+  --accent: #6366f1;
+}
+
+html, body {
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+}
+
+/* ─── Animated Background ─────────────────────────────────────────────────── */
+.bg-grid {
+  position: fixed; inset: 0; z-index: 0;
+  background-image:
+    linear-gradient(rgba(239,68,68,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(239,68,68,0.04) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events: none;
+}
+
+.bg-glow {
+  position: fixed; inset: 0; z-index: 0;
+  background: radial-gradient(ellipse 70% 50% at 50% 0%, rgba(239,68,68,0.12), transparent 70%);
+  pointer-events: none;
+}
+
+/* ─── Container ───────────────────────────────────────────────────────────── */
+.container {
+  position: relative; z-index: 1;
+  max-width: 680px; margin: 0 auto;
+  padding: 40px 24px 60px;
+  display: flex; flex-direction: column; align-items: center; gap: 24px;
+}
+
+/* ─── Shield ──────────────────────────────────────────────────────────────── */
+.shield-wrapper { position: relative; display: flex; align-items: center; justify-content: center; }
+
+.shield-pulse {
+  position: absolute;
+  width: 120px; height: 120px; border-radius: 50%;
+  background: rgba(239,68,68,0.12);
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.15); opacity: 0.5; }
+}
+
+.shield-icon { animation: shieldBob 3s ease-in-out infinite; }
+
+@keyframes shieldBob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
+
+/* ─── Warning Title ───────────────────────────────────────────────────────── */
+.warning-title {
+  font-size: clamp(28px, 5vw, 40px);
+  font-weight: 800;
+  color: var(--danger);
+  text-align: center;
+  letter-spacing: -0.5px;
+  text-shadow: 0 0 40px rgba(239,68,68,0.4);
+}
+
+.warning-subtitle {
+  font-size: 15px; color: var(--text-secondary); text-align: center; max-width: 480px;
+}
+
+/* ─── Risk Score Badge ────────────────────────────────────────────────────── */
+.risk-score-container { width: 100%; display: flex; justify-content: center; }
+
+.risk-badge {
+  display: flex; align-items: center; gap: 16px;
+  background: rgba(239,68,68,0.08);
+  border: 1px solid rgba(239,68,68,0.3);
+  border-radius: 12px; padding: 16px 28px;
+}
+
+.risk-badge.suspicious {
+  background: rgba(245,158,11,0.08);
+  border-color: rgba(245,158,11,0.3);
+}
+
+.risk-label {
+  font-size: 11px; font-weight: 700; color: var(--text-muted);
+  letter-spacing: 1px; text-transform: uppercase;
+}
+
+.risk-score {
+  font-size: 52px; font-weight: 900;
+  color: var(--danger); line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.risk-badge.suspicious .risk-score { color: var(--suspicious); }
+
+.risk-classification {
+  font-size: 16px; font-weight: 700;
+  background: rgba(239,68,68,0.2); color: var(--danger);
+  padding: 4px 12px; border-radius: 20px;
+  text-transform: uppercase; letter-spacing: 0.5px;
+}
+
+.risk-badge.suspicious .risk-classification {
+  background: rgba(245,158,11,0.2); color: var(--suspicious);
+}
+
+/* ─── URL Box ─────────────────────────────────────────────────────────────── */
+.url-box {
+  width: 100%; max-width: 600px;
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 10px; padding: 14px 18px;
+}
+
+.url-label { font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
+
+.url-value {
+  font-family: 'Courier New', monospace;
+  font-size: 13px; color: var(--danger);
+  word-break: break-all; line-height: 1.5;
+}
+
+/* ─── Findings ────────────────────────────────────────────────────────────── */
+.findings-box {
+  width: 100%; max-width: 600px;
+  background: var(--card-bg);
+  border: 1px solid rgba(239,68,68,0.2);
+  border-radius: 10px; padding: 16px 18px;
+}
+
+.findings-header {
+  display: flex; align-items: center; gap: 8px;
+  margin-bottom: 12px;
+}
+
+.findings-icon { font-size: 16px; }
+.findings-title { font-size: 13px; font-weight: 700; color: var(--text-primary); }
+
+.findings-list { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+
+.findings-list li {
+  font-size: 13px; color: var(--text-secondary);
+  padding: 8px 12px; padding-left: 28px;
+  background: rgba(255,255,255,0.02);
+  border-radius: 6px; position: relative;
+  border-left: 2px solid rgba(239,68,68,0.4);
+}
+
+.findings-list li::before {
+  content: '›'; position: absolute; left: 10px;
+  color: var(--danger); font-weight: 700; font-size: 14px;
+}
+
+/* ─── Action Buttons ──────────────────────────────────────────────────────── */
+.action-row {
+  display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; width: 100%; max-width: 560px;
+}
+
+.btn {
+  flex: 1; min-width: 200px;
+  padding: 14px 24px; border-radius: 10px; border: none;
+  font-size: 14px; font-weight: 700; cursor: pointer;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  transition: all 0.2s; letter-spacing: 0.2px;
+}
+
+.btn-safe {
+  background: #1e293b; color: #22c55e;
+  border: 1px solid rgba(34,197,94,0.4);
+}
+.btn-safe:hover { background: rgba(34,197,94,0.1); transform: translateY(-1px); }
+
+.btn-danger {
+  background: rgba(239,68,68,0.1); color: var(--danger);
+  border: 1px solid rgba(239,68,68,0.4);
+}
+.btn-danger:hover { background: rgba(239,68,68,0.2); transform: translateY(-1px); }
+
+.btn-icon { font-size: 16px; }
+
+/* ─── Disclaimer ──────────────────────────────────────────────────────────── */
+.disclaimer {
+  font-size: 11px; color: var(--text-muted); text-align: center; max-width: 480px;
+}
+
+/* ─── Branding ────────────────────────────────────────────────────────────── */
+.branding {
+  display: flex; align-items: center; gap: 8px;
+  margin-top: 8px;
+}
+.branding-logo { font-size: 18px; }
+.branding-name { font-size: 14px; font-weight: 700; color: var(--accent); }
+.branding-tag { font-size: 11px; color: var(--text-muted); }

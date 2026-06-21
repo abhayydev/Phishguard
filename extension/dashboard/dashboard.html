@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PhishGuard Dashboard</title>
+  <link rel="stylesheet" href="dashboard.css" />
+</head>
+<body class="dark">
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <span class="brand-icon">⚡</span>
+      <span class="brand-name">PhishGuard</span>
+    </div>
+    <nav class="sidebar-nav">
+      <a href="#" class="nav-item active" data-tab="overview">
+        <span class="nav-icon">📊</span><span>Overview</span>
+      </a>
+      <a href="#" class="nav-item" data-tab="history">
+        <span class="nav-icon">🕒</span><span>History</span>
+      </a>
+      <a href="#" class="nav-item" data-tab="reports">
+        <span class="nav-icon">🚨</span><span>Reports</span>
+      </a>
+      <a href="#" class="nav-item" data-tab="settings">
+        <span class="nav-icon">⚙️</span><span>Settings</span>
+      </a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="protection-toggle-row">
+        <span class="toggle-label">Protection</span>
+        <label class="toggle-switch">
+          <input type="checkbox" id="globalProtectionToggle" />
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main -->
+  <main class="main">
+
+    <!-- ── OVERVIEW TAB ─────────────────────────────────────────────────── -->
+    <section id="tab-overview" class="tab-section">
+      <div class="page-header">
+        <h1 class="page-title">Security Overview</h1>
+        <div class="header-actions">
+          <button class="btn btn-outline" id="exportJSONBtn">Export JSON</button>
+          <button class="btn btn-outline" id="exportCSVBtn">Export CSV</button>
+        </div>
+      </div>
+
+      <!-- Stats Grid -->
+      <div class="stats-grid">
+        <div class="stat-card safe">
+          <div class="stat-icon">🔍</div>
+          <div class="stat-body">
+            <div class="stat-value" id="totalScanned">0</div>
+            <div class="stat-label">Sites Scanned</div>
+          </div>
+        </div>
+        <div class="stat-card danger">
+          <div class="stat-icon">🛑</div>
+          <div class="stat-body">
+            <div class="stat-value" id="totalBlocked">0</div>
+            <div class="stat-label">Threats Blocked</div>
+          </div>
+        </div>
+        <div class="stat-card warning">
+          <div class="stat-icon">⚠️</div>
+          <div class="stat-body">
+            <div class="stat-value" id="totalSuspicious">0</div>
+            <div class="stat-label">Suspicious Sites</div>
+          </div>
+        </div>
+        <div class="stat-card accent">
+          <div class="stat-icon">📋</div>
+          <div class="stat-body">
+            <div class="stat-value" id="totalReports">0</div>
+            <div class="stat-label">Reports Submitted</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Charts Row -->
+      <div class="charts-row">
+        <div class="chart-card">
+          <h3 class="chart-title">Risk Distribution</h3>
+          <div class="donut-wrapper">
+            <svg class="donut-chart" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="60" cy="60" r="48" fill="none" stroke="#1e293b" stroke-width="18"/>
+              <circle id="donutSafe" cx="60" cy="60" r="48" fill="none" stroke="#22c55e" stroke-width="18"
+                stroke-dasharray="0 301.6" stroke-linecap="butt" transform="rotate(-90 60 60)"/>
+              <circle id="donutSuspicious" cx="60" cy="60" r="48" fill="none" stroke="#f59e0b" stroke-width="18"
+                stroke-dasharray="0 301.6" stroke-linecap="butt" transform="rotate(-90 60 60)"/>
+              <circle id="donutDanger" cx="60" cy="60" r="48" fill="none" stroke="#ef4444" stroke-width="18"
+                stroke-dasharray="0 301.6" stroke-linecap="butt" transform="rotate(-90 60 60)"/>
+              <text x="60" y="56" text-anchor="middle" fill="#f1f5f9" font-size="16" font-weight="700" id="donutTotal">0</text>
+              <text x="60" y="70" text-anchor="middle" fill="#64748b" font-size="8">total</text>
+            </svg>
+            <div class="donut-legend">
+              <div class="legend-item"><span class="legend-dot safe"></span><span>Safe</span><span class="legend-val" id="legendSafe">0</span></div>
+              <div class="legend-item"><span class="legend-dot suspicious"></span><span>Suspicious</span><span class="legend-val" id="legendSuspicious">0</span></div>
+              <div class="legend-item"><span class="legend-dot danger"></span><span>High Risk</span><span class="legend-val" id="legendDanger">0</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="chart-card">
+          <h3 class="chart-title">Recent Activity (Last 7 Days)</h3>
+          <div class="bar-chart-wrapper">
+            <canvas id="activityChart" width="340" height="160"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- Recent High Risk Sites -->
+      <div class="table-card">
+        <h3 class="table-title">Recent High-Risk Sites</h3>
+        <div class="table-wrapper">
+          <table class="data-table" id="highRiskTable">
+            <thead>
+              <tr>
+                <th>URL</th><th>Score</th><th>Classification</th><th>Time</th>
+              </tr>
+            </thead>
+            <tbody id="highRiskBody">
+              <tr><td colspan="4" class="empty-cell">No high-risk sites detected yet.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── HISTORY TAB ─────────────────────────────────────────────────── -->
+    <section id="tab-history" class="tab-section hidden">
+      <div class="page-header">
+        <h1 class="page-title">Browsing Security History</h1>
+        <div class="header-actions">
+          <input type="text" id="historySearch" class="search-input" placeholder="Search URLs..." />
+          <select id="historyFilter" class="select-input">
+            <option value="">All</option>
+            <option value="High Risk">High Risk</option>
+            <option value="Suspicious">Suspicious</option>
+            <option value="Safe">Safe</option>
+          </select>
+          <button class="btn btn-danger-outline" id="clearHistoryBtn">Clear History</button>
+        </div>
+      </div>
+      <div class="table-card">
+        <div class="table-wrapper">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>URL</th><th>Page Title</th><th>Score</th><th>Classification</th><th>Findings</th><th>Time</th>
+              </tr>
+            </thead>
+            <tbody id="historyTableBody">
+              <tr><td colspan="6" class="empty-cell">No history yet. Browse some sites!</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="pagination-row">
+          <button class="btn btn-outline btn-sm" id="historyPrevBtn" disabled>← Prev</button>
+          <span class="page-info" id="historyPageInfo">Page 1</span>
+          <button class="btn btn-outline btn-sm" id="historyNextBtn" disabled>Next →</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── REPORTS TAB ─────────────────────────────────────────────────── -->
+    <section id="tab-reports" class="tab-section hidden">
+      <div class="page-header">
+        <h1 class="page-title">Phishing Reports</h1>
+        <div class="header-actions">
+          <button class="btn btn-primary" id="newReportBtn">+ New Report</button>
+        </div>
+      </div>
+
+      <div class="table-card">
+        <div class="table-wrapper">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>URL</th><th>Score</th><th>Notes</th><th>Status</th><th>Submitted</th>
+              </tr>
+            </thead>
+            <tbody id="reportsTableBody">
+              <tr><td colspan="5" class="empty-cell">No reports submitted yet.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- New Report Form -->
+      <div class="form-card" id="newReportForm" style="display:none;">
+        <h3 class="form-title">Report a Phishing Site</h3>
+        <div class="form-group">
+          <label class="form-label">Phishing URL</label>
+          <input type="url" id="reportURLInput" class="form-input" placeholder="https://suspicious-site.com" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Notes / Description</label>
+          <textarea id="reportNotesInput" class="form-textarea" placeholder="Describe why this site is suspicious..." rows="3"></textarea>
+        </div>
+        <div class="form-actions">
+          <button class="btn btn-outline" id="cancelNewReport">Cancel</button>
+          <button class="btn btn-primary" id="submitNewReport">Submit Report</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── SETTINGS TAB ─────────────────────────────────────────────────── -->
+    <section id="tab-settings" class="tab-section hidden">
+      <div class="page-header">
+        <h1 class="page-title">Settings</h1>
+      </div>
+
+      <div class="settings-grid">
+
+        <div class="settings-card">
+          <h3 class="settings-card-title">Protection</h3>
+          <div class="setting-row">
+            <div class="setting-info">
+              <span class="setting-name">Enable Protection</span>
+              <span class="setting-desc">Real-time phishing analysis on all pages</span>
+            </div>
+            <label class="toggle-switch"><input type="checkbox" id="setProtection" /><span class="toggle-slider"></span></label>
+          </div>
+          <div class="setting-row">
+            <div class="setting-info">
+              <span class="setting-name">Show Warning Pages</span>
+              <span class="setting-desc">Show full warning page for dangerous sites</span>
+            </div>
+            <label class="toggle-switch"><input type="checkbox" id="setWarningPage" /><span class="toggle-slider"></span></label>
+          </div>
+          <div class="setting-row">
+            <div class="setting-info">
+              <span class="setting-name">Block High Risk Sites</span>
+              <span class="setting-desc">Automatically intercept High Risk sites</span>
+            </div>
+            <label class="toggle-switch"><input type="checkbox" id="setBlockHighRisk" /><span class="toggle-slider"></span></label>
+          </div>
+          <div class="setting-row">
+            <div class="setting-info">
+              <span class="setting-name">Block Suspicious Sites</span>
+              <span class="setting-desc">Also intercept Suspicious-rated sites</span>
+            </div>
+            <label class="toggle-switch"><input type="checkbox" id="setBlockSuspicious" /><span class="toggle-slider"></span></label>
+          </div>
+          <div class="setting-row">
+            <div class="setting-info">
+              <span class="setting-name">Show Notifications</span>
+              <span class="setting-desc">Desktop notifications for detections</span>
+            </div>
+            <label class="toggle-switch"><input type="checkbox" id="setNotifications" /><span class="toggle-slider"></span></label>
+          </div>
+        </div>
+
+        <div class="settings-card">
+          <h3 class="settings-card-title">Threat Intelligence</h3>
+          <div class="setting-row">
+            <div class="setting-info">
+              <span class="setting-name">Google Safe Browsing</span>
+              <span class="setting-desc">Check URLs against Google's threat database</span>
+            </div>
+            <label class="toggle-switch"><input type="checkbox" id="setSafeBrowsing" /><span class="toggle-slider"></span></label>
+          </div>
+          <div class="setting-row">
+            <div class="setting-info">
+              <span class="setting-name">PhishTank</span>
+              <span class="setting-desc">Check URLs against PhishTank's phishing database</span>
+            </div>
+            <label class="toggle-switch"><input type="checkbox" id="setPhishTank" /><span class="toggle-slider"></span></label>
+          </div>
+          <div class="setting-row">
+            <div class="setting-info">
+              <span class="setting-name">WHOIS Domain Lookup</span>
+              <span class="setting-desc">Check domain registration age (requires backend)</span>
+            </div>
+            <label class="toggle-switch"><input type="checkbox" id="setWhois" /><span class="toggle-slider"></span></label>
+          </div>
+        </div>
+
+        <div class="settings-card">
+          <h3 class="settings-card-title">Backend API (Optional)</h3>
+          <p class="settings-desc-text">Deploy the included Vercel backend to enable threat intelligence APIs with your own API keys. Keeps your keys private.</p>
+          <div class="form-group">
+            <label class="form-label">Backend URL</label>
+            <input type="url" id="setBackendURL" class="form-input" placeholder="https://your-app.vercel.app" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Google Safe Browsing API Key</label>
+            <input type="password" id="setSBKey" class="form-input" placeholder="AIza..." />
+          </div>
+          <div class="form-group">
+            <label class="form-label">PhishTank API Key (optional)</label>
+            <input type="password" id="setPTKey" class="form-input" placeholder="phishtank_key_..." />
+          </div>
+          <button class="btn btn-primary" id="saveAPIKeys">Save API Configuration</button>
+        </div>
+
+        <div class="settings-card">
+          <h3 class="settings-card-title">Privacy & Data</h3>
+          <div class="form-group">
+            <label class="form-label">History Retention (Days)</label>
+            <input type="number" id="setRetention" class="form-input" min="1" max="365" value="30" />
+          </div>
+          <div class="action-row-settings">
+            <button class="btn btn-outline" id="clearCacheBtn">Clear Analysis Cache</button>
+            <button class="btn btn-danger-outline" id="clearAllDataBtn">Clear All Data</button>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="settings-save-row">
+        <button class="btn btn-primary btn-lg" id="saveSettingsBtn">Save All Settings</button>
+        <span class="save-status" id="saveStatus"></span>
+      </div>
+    </section>
+
+  </main>
+
+  <script src="dashboard.js" type="module"></script>
+</body>
+</html>

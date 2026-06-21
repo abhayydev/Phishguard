@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>⚠️ Phishing Warning — PhishGuard</title>
+  <link rel="stylesheet" href="warning.css" />
+</head>
+<body>
+
+  <!-- Animated background grid -->
+  <div class="bg-grid"></div>
+  <div class="bg-glow"></div>
+
+  <div class="container">
+
+    <!-- Shield Icon with pulse -->
+    <div class="shield-wrapper">
+      <div class="shield-pulse"></div>
+      <div class="shield-icon">
+        <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M40 8L12 20V40C12 55.464 24.536 69.072 40 72C55.464 69.072 68 55.464 68 40V20L40 8Z" fill="rgba(239,68,68,0.1)" stroke="#ef4444" stroke-width="2"/>
+          <text x="40" y="50" text-anchor="middle" fill="#ef4444" font-size="28" font-weight="bold">!</text>
+        </svg>
+      </div>
+    </div>
+
+    <!-- Warning Header -->
+    <h1 class="warning-title">Phishing Warning</h1>
+    <p class="warning-subtitle">PhishGuard has detected this site as potentially dangerous</p>
+
+    <!-- Risk Score Badge -->
+    <div class="risk-score-container">
+      <div class="risk-badge" id="riskBadge">
+        <span class="risk-label">RISK SCORE</span>
+        <span class="risk-score" id="riskScore">—</span>
+        <span class="risk-classification" id="riskClassification">—</span>
+      </div>
+    </div>
+
+    <!-- Target URL -->
+    <div class="url-box">
+      <div class="url-label">Blocked URL</div>
+      <div class="url-value" id="targetURL">—</div>
+    </div>
+
+    <!-- Security Findings -->
+    <div class="findings-box" id="findingsBox">
+      <div class="findings-header">
+        <span class="findings-icon">🔍</span>
+        <span class="findings-title">Why this site was blocked</span>
+      </div>
+      <ul class="findings-list" id="findingsList">
+        <li>Loading security analysis...</li>
+      </ul>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="action-row">
+      <button class="btn btn-safe" id="goBackBtn">
+        <span class="btn-icon">←</span>
+        <span>Go Back to Safety</span>
+      </button>
+      <button class="btn btn-danger" id="proceedBtn">
+        <span class="btn-icon">⚠️</span>
+        <span>Proceed Anyway (Unsafe)</span>
+      </button>
+    </div>
+
+    <!-- Disclaimer -->
+    <p class="disclaimer">
+      Proceeding will add this domain to your allowlist. You can manage your allowlist in the PhishGuard dashboard.
+    </p>
+
+    <!-- PhishGuard Branding -->
+    <div class="branding">
+      <span class="branding-logo">⚡</span>
+      <span class="branding-name">PhishGuard</span>
+      <span class="branding-tag">Real-time Phishing Protection</span>
+    </div>
+
+  </div>
+
+  <script src="warning.js"></script>
+</body>
+</html>

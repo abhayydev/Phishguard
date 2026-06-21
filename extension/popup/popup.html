@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PhishGuard</title>
+  <link rel="stylesheet" href="popup.css" />
+</head>
+<body class="dark">
+
+  <!-- Header -->
+  <header class="header">
+    <div class="header-left">
+      <img src="../assets/icons/icon32.png" alt="PhishGuard" class="logo" />
+      <span class="brand-name">PhishGuard</span>
+    </div>
+    <div class="header-right">
+      <button id="toggleProtection" class="toggle-btn" title="Toggle protection">
+        <span class="toggle-icon">⚡</span>
+      </button>
+      <button id="openDashboard" class="icon-btn" title="Open dashboard">
+        <span>⚙</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main id="mainContent">
+
+    <!-- Loading State -->
+    <section id="loadingState" class="state-section">
+      <div class="spinner-container">
+        <div class="spinner"></div>
+        <p class="state-label">Analyzing...</p>
+      </div>
+    </section>
+
+    <!-- Result State -->
+    <section id="resultState" class="state-section hidden">
+
+      <!-- Risk Gauge -->
+      <div class="gauge-container">
+        <svg class="gauge-svg" viewBox="0 0 200 120" xmlns="http://www.w3.org/2000/svg">
+          <!-- Background arc -->
+          <path d="M 20 100 A 80 80 0 0 1 180 100" fill="none" stroke="#1e293b" stroke-width="16" stroke-linecap="round"/>
+          <!-- Score arc (dynamic) -->
+          <path id="gaugeArc" d="M 20 100 A 80 80 0 0 1 180 100" fill="none" stroke="#22c55e" stroke-width="16" stroke-linecap="round" stroke-dasharray="251.2" stroke-dashoffset="251.2"/>
+          <!-- Center score display -->
+          <text id="scoreText" x="100" y="90" text-anchor="middle" class="gauge-score">0</text>
+          <text x="100" y="108" text-anchor="middle" class="gauge-label">/ 100</text>
+        </svg>
+        <div id="classificationBadge" class="classification-badge safe">Safe</div>
+      </div>
+
+      <!-- Domain Info -->
+      <div class="domain-card">
+        <div class="domain-row">
+          <span class="domain-icon" id="httpsIcon">🔒</span>
+          <span class="domain-text" id="domainText">—</span>
+        </div>
+        <div id="sslInfo" class="ssl-info"></div>
+      </div>
+
+      <!-- Threat Intel Row -->
+      <div class="intel-row" id="intelRow">
+        <div class="intel-chip" id="safeBrowsingChip">
+          <span class="chip-icon">🛡</span>
+          <span class="chip-label">Safe Browsing</span>
+          <span class="chip-status" id="sbStatus">—</span>
+        </div>
+        <div class="intel-chip" id="phishTankChip">
+          <span class="chip-icon">🐟</span>
+          <span class="chip-label">PhishTank</span>
+          <span class="chip-status" id="ptStatus">—</span>
+        </div>
+        <div class="intel-chip" id="whoisChip">
+          <span class="chip-icon">📅</span>
+          <span class="chip-label">Domain Age</span>
+          <span class="chip-status" id="whoisStatus">—</span>
+        </div>
+      </div>
+
+      <!-- Findings List -->
+      <div id="findingsContainer" class="findings-container hidden">
+        <h3 class="findings-title">Security Findings</h3>
+        <ul class="findings-list" id="findingsList"></ul>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="action-row">
+        <button id="reportBtn" class="action-btn secondary">
+          🚨 Report Site
+        </button>
+        <button id="reanalyzeBtn" class="action-btn primary">
+          🔄 Re-analyze
+        </button>
+      </div>
+
+    </section>
+
+    <!-- Error State -->
+    <section id="errorState" class="state-section hidden">
+      <div class="error-content">
+        <span class="error-icon">⚠️</span>
+        <p class="error-text" id="errorText">Unable to analyze this page.</p>
+        <button id="retryBtn" class="action-btn primary">Retry</button>
+      </div>
+    </section>
+
+    <!-- Disabled State -->
+    <section id="disabledState" class="state-section hidden">
+      <div class="disabled-content">
+        <span class="disabled-icon">🛑</span>
+        <p class="disabled-text">Protection is disabled</p>
+        <button id="enableBtn" class="action-btn primary">Enable Protection</button>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer Stats -->
+  <footer class="footer">
+    <div class="stat-item">
+      <span class="stat-value" id="statScanned">0</span>
+      <span class="stat-key">Scanned</span>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="stat-item">
+      <span class="stat-value" id="statBlocked">0</span>
+      <span class="stat-key">Blocked</span>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="stat-item">
+      <span class="stat-value" id="statSuspicious">0</span>
+      <span class="stat-key">Suspicious</span>
+    </div>
+  </footer>
+
+  <!-- Report Modal -->
+  <div id="reportModal" class="modal hidden">
+    <div class="modal-backdrop"></div>
+    <div class="modal-content">
+      <h3 class="modal-title">Report Phishing Site</h3>
+      <p class="modal-url" id="reportURL"></p>
+      <textarea id="reportNotes" class="modal-textarea" placeholder="Additional notes (optional)..." rows="3"></textarea>
+      <div class="modal-actions">
+        <button id="cancelReport" class="action-btn secondary">Cancel</button>
+        <button id="submitReport" class="action-btn danger">Submit Report</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="popup.js" type="module"></script>
+</body>
+</html>
