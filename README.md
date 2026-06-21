@@ -537,9 +537,7 @@ In `lib/threat-intelligence.js`:
 2. Add `<section id="tab-newname">` content
 3. Add case to `activateTab()` in `dashboard/dashboard.js`
 
----
-
-## 📄 Resume / Portfolio Notes
+--
 
 This project demonstrates:
 
@@ -556,15 +554,8 @@ This project demonstrates:
 | **UI/UX Design** | Dark mode, animated gauge, canvas charts, responsive layout |
 | **Privacy Engineering** | Local-first analysis, no credential collection, minimal data exposure |
 
-### Internship Portfolio Description
 
 > "Built a production-ready anti-phishing browser extension for Chrome/Edge (Manifest V3) with real-time URL analysis using Levenshtein-based typosquatting detection, homoglyph attack identification, and a weighted ML-inspired scoring engine across 30+ security signals. Integrated Google Safe Browsing and PhishTank APIs through a Vercel serverless backend with CORS and API key proxying. Content scripts perform live DOM analysis for credential harvesting detection and fake login form identification. Includes a full cybersecurity dashboard with browsing history, export capabilities, and an animated warning page. Backed by 100+ unit tests with no external test framework dependency."
-
----
-
-## 📜 License
-
-MIT License — Free to use, modify, and distribute.
 
 ---
 
