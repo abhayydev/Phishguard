@@ -21,7 +21,7 @@
 9. [Docker Deployment](#-docker-deployment)
 10. [Privacy & Security](#-privacy--security)
 11. [Extending the Extension](#-extending-the-extension)
-12. [Resume Notes](#-resume--portfolio-notes)
+    
 
 ---
 
@@ -576,4 +576,4 @@ This project demonstrates:
 
 ---
 
-*Built with ⚡ by PhishGuard — Keeping users safe, one URL at a time.*
+*Built by Abhay ⚡ PhishGuard — Keeping users safe, one URL at a time.*
